@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - 3600:3600
+    depends_on:
+      - mariadb
+    networks:
+      - weather
+
+  mariadb:
+    image: mariadb:10.2
+    environment:
+      MYSQL_ROOT_PASSWORD: ETAu6EzPEFQrAKhdgMFKdbUswAFuqr3TTSdu434u2pKYJwNcSYdtNwGTmR48Kqrv
+      MYSQL_DATABASE: telegram-weather
+      MYSQL_USER: telegram-weather
+      MYSQL_PASSWORD: fqWSU9Y7mLDmLTpKDA84fFg3rGEem8yAdNy57C2gcJJMjT7e9C3wEzpCzR5juZy6
+    logging:
+      driver: syslog
+      options:
+        tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
+    networks:
+      - weather
+    restart: on-failure
+    volumes:
+      - ${PWD}/mariadb:/var/lib/mysql
+
+networks:
+  weather:
+    driver: bridge

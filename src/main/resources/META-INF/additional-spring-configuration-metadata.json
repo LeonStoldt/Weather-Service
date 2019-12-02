@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "openweathermap.api.key",
+      "type": "java.lang.String",
+      "description": "Specify your OpenWeatherMap API key"
+    },
+    {
+      "name": "openweathermap.api.version",
+      "type": "java.lang.String",
+      "description": "Specify the OpenWeatherMap API version to use in URL"
+    },
+    {
+      "name": "openweathermap.api.language",
+      "type": "java.lang.String",
+      "description": "Specify result language"
+    },
+    {
+      "name": "openweathermap.api.cache-ttl",
+      "type": "java.lang.String",
+      "description": "Specify cache time to live in minutes"
+    }
+  ] }
