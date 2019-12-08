@@ -4,8 +4,8 @@ import de.nordakademie.cloud.telegram.weather.model.WeatherReport;
 import de.nordakademie.cloud.telegram.weather.service.OpenWeatherMapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 //import dto.DataTransferObject;
@@ -23,8 +23,8 @@ public class WeatherController {
         this.openWeatherMapService = openWeatherMapService;
     }
 
-//    @GetMapping("/full")
-//    public ResponseEntity getWeather(@RequestParam String cityName) {
+//    @PostMapping("/full")
+//    public ResponseEntity getWeather(@RequestBody String cityName) {
 //        System.out.println("---------------------------------------------------------------");
 //        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
 //        if (weatherReport != null) {
@@ -34,44 +34,49 @@ public class WeatherController {
 //        }
 //    }
 
-    @GetMapping("/temperature")
-    public ResponseEntity getTemperature(@RequestParam String cityName) {
+    @PostMapping("/temperature")
+    public ResponseEntity<String> getTemperature(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
-        if (weatherReport != null) {
-            return new ResponseEntity<>("Die Temperatur in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getTemperature()) + "°C", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        String response = weatherReport != null
+                ? "Die Temperatur in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getTemperature()) + "°C"
+                : "Leider konnte ich keine Angaben zur Temperatur für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
-    @GetMapping("/humidity")
-    public ResponseEntity getHumidity(@RequestParam String cityName) {
+    @PostMapping("/humidity")
+    public ResponseEntity<String> getHumidity(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
-        if (weatherReport != null) {
-            return new ResponseEntity<>("Die Luftfeuchtigkeit in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getTemperature()) + "%", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        String response = weatherReport != null
+                ? "Die Luftfeuchtigkeit in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getTemperature()) + "%"
+                : "Leider konnte ich keine Angaben zur Luftfeuchtigkeit für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
-    @GetMapping("/visibility")
-    public ResponseEntity getVisibility(@RequestParam String cityName) {
+    @PostMapping("/visibility")
+    public ResponseEntity<String> getVisibility(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
-        if (weatherReport != null) {
-            return new ResponseEntity<>("Die Sichtweite in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getVisibility()) + " Meter", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        String response = weatherReport != null
+                ? "Die Sichtweite in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getVisibility()) + " Meter"
+                : "Leider konnte ich keine Angaben zur Sichtweite für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
-    @GetMapping("/wind")
-    public ResponseEntity getWind(@RequestParam String cityName) {
+    @PostMapping("/wind")
+    public ResponseEntity<String> getWind(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
-        if (weatherReport != null) {
-            return new ResponseEntity<>("In " + weatherReport.getCityName() + " weht " + weatherReport.getWindDirectionOnCompass() + "Wind mit " + Math.round(weatherReport.getWindSpeed()) + "km/h", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        String response = weatherReport != null
+                ? "In " + weatherReport.getCityName() + " weht " + weatherReport.getWindDirectionOnCompass() + "Wind mit " + Math.round(weatherReport.getWindSpeed()) + "km/h"
+                : "Leider konnte ich keine Angaben zum Wind für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
 }
