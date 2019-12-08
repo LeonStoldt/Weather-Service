@@ -52,7 +52,7 @@ public class WeatherController {
     public ResponseEntity<String> getHumidity(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "Die Luftfeuchtigkeit in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getTemperature()) + "%"
+                ? "Die Luftfeuchtigkeit in " + weatherReport.getCityName() + " beträgt " + Math.round(weatherReport.getHumidity()) + "%"
                 : "Leider konnte ich keine Angaben zur Luftfeuchtigkeit für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
 
         return ResponseEntity
