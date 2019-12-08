@@ -3,6 +3,7 @@ package de.nordakademie.cloud.telegram.weather.controller;
 import de.nordakademie.cloud.telegram.weather.model.WeatherReport;
 import de.nordakademie.cloud.telegram.weather.service.OpenWeatherMapService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WeatherController {
+
+    private static final String JSON = MediaType.APPLICATION_JSON_VALUE;
 
     private OpenWeatherMapService openWeatherMapService;
 
@@ -34,7 +37,7 @@ public class WeatherController {
 //        }
 //    }
 
-    @PostMapping("/temperature")
+    @PostMapping(value = "/temperature", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getTemperature(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
@@ -45,7 +48,7 @@ public class WeatherController {
                 .body(response);
     }
 
-    @PostMapping("/humidity")
+    @PostMapping(value = "/humidity", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getHumidity(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
@@ -57,7 +60,7 @@ public class WeatherController {
                 .body(response);
     }
 
-    @PostMapping("/visibility")
+    @PostMapping(value = "/visibility", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getVisibility(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
@@ -68,7 +71,7 @@ public class WeatherController {
                 .body(response);
     }
 
-    @PostMapping("/wind")
+    @PostMapping(value = "/wind", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getWind(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
