@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mariadb
+  name: mariadb
+spec:
+  containers:
+  - env:
+    - name: MARIADB_DATABASE
+      value: telegram-weather
+    - name: MARIADB_ROOT_PASSWORD
+      value: fqWSU9Y7mLDmLTpKDA84fFg3rGEem8yAdNy57C2gcJJMjT7e9C3wEzpCzR5juZy6
+    - name: MARIADB_ROOT_USER
+      value: telegram-weather
+    image: bitnami/mariadb:latest
+    name: mariadb
+    resources: {}
+  restartPolicy: OnFailure
+status: {}
