@@ -61,7 +61,7 @@ public class WeatherController {
     public ResponseEntity<String> getPressure(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "Der Luftdruck in " + weatherReport.getCityName() + " beträgt " + weatherReport.getPressure() + " hPa"
+                ? "Der Luftdruck in " + weatherReport.getCityName() + " beträgt " + weatherReport.getPressure() + "hPa"
                 : "Leider konnte ich keine Angaben zum Luftdruck für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
