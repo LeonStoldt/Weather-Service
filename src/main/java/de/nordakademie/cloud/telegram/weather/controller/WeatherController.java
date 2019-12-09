@@ -71,12 +71,56 @@ public class WeatherController {
                 .body(response);
     }
 
+    @PostMapping(value = "/pressure", produces = JSON, consumes = JSON)
+    public ResponseEntity<String> getPressure(@RequestBody String cityName) {
+        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
+        String response = weatherReport != null
+                ? "Der Luftdruck in " + weatherReport.getCityName() + " beträgt " + weatherReport.getPressure() + " hPa"
+                : "Leider konnte ich keine Angaben zum Luftdruck für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
     @PostMapping(value = "/wind", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getWind(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
                 ? "In " + weatherReport.getCityName() + " weht " + weatherReport.getWindDirectionOnCompass() + "Wind mit " + Math.round(weatherReport.getWindSpeed()) + "km/h"
                 : "Leider konnte ich keine Angaben zum Wind für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PostMapping(value = "/coordinates", produces = JSON, consumes = JSON)
+    public ResponseEntity<String> getCoordinates(@RequestBody String cityName) {
+        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
+        String response = weatherReport != null
+                ? weatherReport.getLatitude() + "; " + weatherReport.getLongitude()
+                : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PostMapping(value = "/sunrise", produces = JSON, consumes = JSON)
+    public ResponseEntity<String> getSunrise(@RequestBody String cityName) {
+        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
+        String response = weatherReport != null
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + weatherReport.getSunrise() +  " Uhr auf"
+                : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PostMapping(value = "/sunset", produces = JSON, consumes = JSON)
+    public ResponseEntity<String> getSunset(@RequestBody String cityName) {
+        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
+        String response = weatherReport != null
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + weatherReport.getSunrise() +  " Uhr unter"
+                : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
