@@ -94,7 +94,7 @@ public class WeatherController {
     public ResponseEntity<String> getSunrise(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunrise()).atZone(ZoneId.systemDefault()).toLocalDate() +  " Uhr auf"
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunrise()).atZone(ZoneId.systemDefault()).toLocalTime() +  " Uhr auf"
                 : "Leider konnte ich keine Informationen zum Sonnenaufgang für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -105,7 +105,7 @@ public class WeatherController {
     public ResponseEntity<String> getSunset(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunset()).atZone(ZoneId.systemDefault()).toLocalDate() +  " Uhr unter"
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunset()).atZone(ZoneId.systemDefault()).toLocalTime() +  " Uhr unter"
                 : "Leider konnte ich keine Informationen zum Sonnenuntergang für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
