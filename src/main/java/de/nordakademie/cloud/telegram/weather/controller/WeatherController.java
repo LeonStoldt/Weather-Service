@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//import dto.DataTransferObject;
-//import dto.Request;
-//import dto.Response;
-//import io.jsonwebtoken.JwtException;
-//import security.JwsHelper;
+import java.time.Instant;
+import java.time.ZoneId;
 
 @RestController
 public class WeatherController {
@@ -25,17 +22,6 @@ public class WeatherController {
     public WeatherController(OpenWeatherMapService openWeatherMapService) {
         this.openWeatherMapService = openWeatherMapService;
     }
-
-//    @PostMapping("/full")
-//    public ResponseEntity getWeather(@RequestBody String cityName) {
-//        System.out.println("---------------------------------------------------------------");
-//        WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
-//        if (weatherReport != null) {
-//            return new ResponseEntity<>(weatherReport, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Unable to load weather from repository or API", HttpStatus.NOT_FOUND);
-//        }
-//    }
 
     @PostMapping(value = "/temperature", produces = JSON, consumes = JSON)
     public ResponseEntity<String> getTemperature(@RequestBody String cityName) {
@@ -97,7 +83,7 @@ public class WeatherController {
     public ResponseEntity<String> getCoordinates(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? weatherReport.getLatitude() + "; " + weatherReport.getLongitude()
+                ? weatherReport.getLatitude() + "," + weatherReport.getLongitude()
                 : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -108,8 +94,8 @@ public class WeatherController {
     public ResponseEntity<String> getSunrise(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + weatherReport.getSunrise() +  " Uhr auf"
-                : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunrise()).atZone(ZoneId.systemDefault()).toLocalDate() +  " Uhr auf"
+                : "Leider konnte ich keine Informationen zum Sonnenaufgang für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
@@ -119,8 +105,8 @@ public class WeatherController {
     public ResponseEntity<String> getSunset(@RequestBody String cityName) {
         WeatherReport weatherReport = openWeatherMapService.getWeatherReport(cityName);
         String response = weatherReport != null
-                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + weatherReport.getSunrise() +  " Uhr unter"
-                : "Leider konnte ich keine Koordinaten für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
+                ? "In " + weatherReport.getCityName() + " geht die Sonne um " + Instant.ofEpochMilli(weatherReport.getSunset()).atZone(ZoneId.systemDefault()).toLocalDate() +  " Uhr unter"
+                : "Leider konnte ich keine Informationen zum Sonnenuntergang für die angegebene Stadt finden. Prüfe, ob du sie richtig geschrieben hast.";
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
